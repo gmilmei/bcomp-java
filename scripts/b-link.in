@@ -1,0 +1,4 @@
+#!/bin/sh
+JAR=@BCOMPDIR@/bcomp.jar
+LIBB=@BCOMPDIR@/libb.bo
+exec java -cp ${JAR} gemi.bcomp.linker.Linker ${LIBB} "$@"

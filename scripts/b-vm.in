@@ -1,0 +1,3 @@
+#!/bin/sh
+JAR=@BCOMPDIR@/bcomp.jar
+exec java -cp ${JAR} gemi.bcomp.vm.VM "$@"

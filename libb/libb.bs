@@ -1,0 +1,150 @@
+.external main
+.external argv
+.export _start_
+.export $init
+.export argv
+.export char
+.export chdir
+.export chmod
+.export chown
+.export close
+.export creat
+.export ctime
+.export execl
+.export execv
+.export exit
+.export fork
+.export fstat
+.export getchar
+.export getuid
+.export gtty
+.export lchar
+.export link
+.export mkdir
+.export open
+.export printf
+.export printn
+.export putchar
+.export read
+.export seek
+.export setuid
+.export stat
+.export stty
+.export time
+.export unlink
+.export wait
+.export write
+.export _init_argv_
+.data argv 21
+.text
+_start_:
+                MOV  main,R0
+                CALL R0
+                HALT
+$init:
+                LAD  argv,R0
+                MOV  R0,R1
+                ADD  #1,R1
+                MOV  R1,[R0]
+                PUSH R0
+                MOV  #1,R0
+                PUSH R0
+                MOV _init_argv_,R0
+                CALL R0
+                ADD #2,SP
+                RET
+char:
+                SYS #1
+                RET
+chdir:
+                SYS #2
+                RET
+chmod:
+                SYS #3
+                RET
+chown:
+                SYS #4
+                RET
+close:
+                SYS #5
+                RET
+creat:
+                SYS #6
+                RET
+ctime:
+                SYS #7
+                RET
+execl:
+                SYS #8
+                RET
+execv:
+                SYS #9
+                RET
+exit:
+                HALT
+fork:
+                SYS #11
+                RET
+fstat:
+                SYS #12
+                RET
+getchar:
+                SYS #13
+                RET
+getuid:
+                SYS #14
+                RET
+gtty:
+                SYS #15
+                RET
+lchar:
+                SYS #16
+                RET
+link:
+                SYS #17
+                RET
+mkdir:
+                SYS #18
+                RET
+open:
+                SYS #19
+                RET
+printf:
+                SYS #20
+                RET
+printn:
+                SYS #21
+                RET
+putchar:
+                SYS #22
+                RET
+read:
+                SYS #23
+                RET
+seek:
+                SYS #24
+                RET
+setuid:
+                SYS #25
+                RET
+stat:
+                SYS #26
+                RET
+stty:
+                SYS #27
+                RET
+time:
+                SYS #28
+                RET
+unlink:
+                SYS #29
+                RET
+wait:
+                SYS #30
+                RET
+write:
+                SYS #31
+                RET
+_init_argv_:
+                SYS #50
+                RET

@@ -1,0 +1,15 @@
+BUILDING
+========
+
+Prequisites: JDK >= 1.8
+
+  make build
+
+INSTALLING
+==========
+
+  make install [BINDIR=...] [BCOMPDIR=...] [DESTDIR=...]
+
+BINDIR:   directory of scripts (default: "/usr/bin")
+BCOMPDIR: directory of support files (default: "/usr/share/bcomp")
+DESTDIR:  prepended to directories during installation (default: empty)
