@@ -1,0 +1,251 @@
+ra,rb: {R0,R1,SP,FP} (2 bit)
+lit: integer literal (24 bit)
+
+00xxxxxx ...: opcodes with no arguments
+1xxxxxxx ...: opcodes with embedded 28-bit addresses
+01xxxxxx ...: opcodes with register, literal and offset arguments
+
+NOP
+  No operation
+  op:
+  format: 00000000 00000000 00000000 00000000
+
+RET
+  Return from subroutine
+  op:
+  format: 00000001 00000000 00000000 00000000
+
+HALT
+  Halt system
+  op:
+  format: 00000010 00000000 00000000 00000000
+
+CALL rb
+  Call subroutine
+  op:
+  format: 01000000 bb000000 00000000 00000000
+
+CALL adr
+  Call subroutine
+  op:
+  format: 1000AAAA AAAAAAAA AAAAAAAA AAAAAAAA
+
+JMP rb
+  Jump absolute
+  op: IP <- rb
+  format: 01000001 rb000000 00000000 00000000
+
+JMP adr
+  Jump absolute
+  op: IP <- adr
+  format: 1001AAAA AAAAAAAA AAAAAAAA AAAAAAAA
+
+LAD adr,R0
+  Load address
+  op: R0 <- adr
+  format: 1010AAAA AAAAAAAA AAAAAAAA AAAAAAAA
+
+MOV adr,R0
+  Move value at address to R0
+  op: R0 <- MEM[adr]
+  format: 1011AAAA AAAAAAAA AAAAAAAA AAAAAAAA
+
+MOV R0,adr
+  Move R0 to address
+  MEM[adr] <- R0
+  format: 1100AAAA AAAAAAAA AAAAAAAA AAAAAAAA
+
+ADD ra,rb
+  Add register to register
+  op: rb <- rb + ra
+  format: 01000010 bb00aa00 00000000 00000000
+
+ADD #lit,rb
+  Add literal to register
+  op: rb <- rb + lit
+  format: 01000010 bb11nnnn nnnnnnnn nnnnnnnn
+
+SUB ra,rb
+  Subtract register from register
+  op: rb <- rb - ra
+  format: 01000011 bb00aa00 00000000 00000000
+
+SUB #lit,rb
+  Subtract literal from register
+  op: rb <- rb - lit
+  format: 01000011 bb11nnnn nnnnnnnn nnnnnnnn
+
+MUL ra,rb
+  Multiply register by register
+  op: rb <- rb * ra
+  format: 01000100 bb00aa00 00000000 00000000
+
+MUL #lit,rb
+  Multiply register by literal
+  op: rb <- rb * lit
+  format: 01000100 bb11nnnn nnnnnnnn nnnnnnnn
+
+DIV ra,rb
+  Divide register by register
+  op: rb <- rb / ra
+  format: 01000101 bb00aa00 00000000 00000000
+
+DIV #lit,rb
+  Divide register by literal
+  op: rb <- rb / lit
+  format: 01000101 bb11nnnn nnnnnnnn nnnnnnnn
+
+MOD ra,rb
+  Modulo register by register
+  op: rb <- rb % ra
+  format: 01000110 bb00aa00 00000000 00000000
+
+MOD #lit,rb
+  Modulo register by literal
+  op: rb <- rb % ra
+  format: 01000110 bb11nnnn nnnnnnnn nnnnnnnn
+
+NEG ra,rb
+  Negate register
+  op: rb <- -ra
+  format: 01000111 bb00aa00 00000000 00000000
+
+AND ra,rb
+  And register and register
+  op: rb <- rb & ra
+  format: 01001000 bb00aa00 00000000 00000000
+  
+AND #lit,rb
+  And register and literal
+  op: rb <- rb & lit
+  format: 01001000 bb11nnnn nnnnnnnn nnnnnnnn
+
+OR ra,rb
+  Or register and register
+  op: rb <- rb | ra
+  format: 01001001 bb00aa00 00000000 00000000
+
+OR #lit,rb
+  Or register and literal
+  op: rb <- rb | lit
+  format: 01001001 bb11nnnn nnnnnnnn nnnnnnnn
+
+XOR ra,rb
+  Exclusive or register and register
+  op: rb <- rb ^ ra
+  format: 01001010 bb00aa00 00000000 00000000
+
+XOR #lit,rb
+  Exclusive or register and literal
+  op: rb <- rb ^ lit
+  format: 01001010 bb11nnnn nnnnnnnn nnnnnnnn
+
+NOT ra,rb
+  Not register
+  op: rb <- ! ra
+  format: 01001011 bb00aa00 00000000 00000000
+
+CPL ra,rb
+  Complement register
+  op: rb <- ~ ra
+  format: 01001100 bb00aa00 00000000 00000000
+
+LSH ra,rb
+  Left shift register and register
+  op: rb <- rb << ra
+  format: 01001101 bb00aa00 00000000 00000000
+
+LSH #lit,rb
+  Left shift register and literal
+  op: rb <- rb << lit
+  format: 01001101 bb11nnnn nnnnnnnn nnnnnnnn
+
+RSH ra,rb
+  Right shift register and register
+  op: rb <- rb >> ra
+  format: 01001110 bb00aa00 00000000 00000000
+
+RSH #lit,rb
+  Right shift register and literal
+  op: rb <- rb >> lit
+  format: 01001110 bb11nnnn nnnnnnnn nnnnnnnn
+
+EXCH ra,rb
+  Exchange register and register
+  op: ra <-> rb
+  format: 01001111 bb00aa00 00000000 00000000
+
+POP rb
+  Pop from stack
+  op: SP <- SP + 1; rb <- MEM[SP]
+  format: 01010000 bb000000 00000000 00000000
+
+PUSH rb
+  Push to stack
+  MEM[SP] <- rb; SP <- SP - 1
+  format: 01010001 bb000000 00000000 00000000
+
+MOV ra,rb
+  Move register
+  op: rb <- ra
+  format: 01010010 bb00aa00 00000000 00000000
+
+MOV #lit,R0
+  Move literal to register R0
+  op: R0 <- lit
+  format: 01010011 nnnnnnnn nnnnnnnn nnnnnnnn
+
+MOV #lit,R1
+  Move literal to register R1
+  op: R1 <- lit
+  format: 01010100 nnnnnnnn nnnnnnnn nnnnnnnn
+
+MOV ra,[rb+offset]
+  Move register to address in register with offset
+  op: MEM[rb+offset] <- ra
+  format: 01010101 aabbnnnn nnnnnnnn nnnnnnnn
+
+MOV [ra+offset],rb
+  Move value in address in register with offset to register
+  op: rb <- MEM[ra+offset]
+  format: 01010110 aabbnnnn nnnnnnnn nnnnnnnn
+
+MOV ra+offset,rb
+  Move register with offset to register
+  op: rb <- ra+offset
+  format: 01010111 aabbnnnn nnnnnnnn nnnnnnnn
+
+BNE offset
+  Branch if not equals
+  op: if R0 == 0 then IP <- IP + offset
+  format: 01011000 nnnnnnnn nnnnnnnn nnnnnnnn
+
+BEQ offset
+  Branch if equals
+  op: if R0 != 0 then IP <- IP + offset
+  format: 01011001 nnnnnnnn nnnnnnnn nnnnnnnn
+
+BNG offset
+  Branch if negative
+  op: if R0 < 0 then IP <- IP + offset
+  format: 01011010 nnnnnnnn nnnnnnnn nnnnnnnn
+
+BPS offset
+  Branch if positive
+  op: if R0 > 0 then IP <- IP + offset
+  format: 01011011 nnnnnnnn nnnnnnnn nnnnnnnn
+
+JRL offset
+  Branch unconditionally
+  op: IP <- IP + offset
+  format: 01011100 nnnnnnnn nnnnnnnn nnnnnnnn
+
+SYS rb
+  System call
+  op: R0 <- result
+  format: 01011101 rb000000 00000000 00000000
+
+SYS #lit
+  System call
+  op: R0 <- result
+  format: 01011110 1111nnnn nnnnnnnn nnnnnnnn
