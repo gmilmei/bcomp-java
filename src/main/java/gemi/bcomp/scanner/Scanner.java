@@ -25,6 +25,8 @@ public class Scanner {
     private int col = -1;
     private int line = 0;
     private int ch;
+    
+    public boolean kernighan = false;
         
     private final static Map<String,TokenType> keywords = new HashMap<>();
 
@@ -56,6 +58,13 @@ public class Scanner {
                         return makeTokenAndAdvance(ASEQUALS, "===", cur_line, cur_col);
                     else
                         return makeToken(EQUALS, "==", cur_line, cur_col);
+                case '!':
+                    nextChar();
+                    if (ch == '=')
+                        return makeTokenAndAdvance(ASNEQUALS, "=!=", cur_line, cur_col);
+                    else
+                        error(line, col, "unexpected character "+(char)ch+" ("+ch+")");
+                    break;
                 case '*':
                     return makeTokenAndAdvance(ASMUL, "=*", cur_line, cur_col);
                 case '+':
@@ -67,7 +76,10 @@ public class Scanner {
                 case '%':
                     return makeTokenAndAdvance(ASMOD, "=%", cur_line, cur_col);
                 case '^':
-                    return makeTokenAndAdvance(ASXOR, "=^", cur_line, cur_col);
+                    if (kernighan)
+                        return makeTokenAndAdvance(ASXOR, "=^", cur_line, cur_col);
+                    else
+                        return makeToken(ASS, "=", cur_line, cur_col);
                 case '|':
                     return makeTokenAndAdvance(ASOR, "=|", cur_line, cur_col);
                 case '&':
@@ -128,9 +140,15 @@ public class Scanner {
             case '&':
                 return makeTokenAndAdvance(AND, "&", cur_line, cur_col);
             case '^':
-                return makeTokenAndAdvance(XOR, "^", cur_line, cur_col);
+                if (kernighan)
+                    return makeTokenAndAdvance(XOR, "^", cur_line, cur_col);
+                else
+                    break;
             case '~':
-                return makeTokenAndAdvance(COMPL, "~", cur_line, cur_col);
+                if (kernighan)
+                    return makeTokenAndAdvance(COMPL, "~", cur_line, cur_col);
+                else
+                    break;
             case '/':
                 nextChar();
                 if (ch == '*') {
@@ -197,9 +215,10 @@ public class Scanner {
                     nextChar();
                 }
                 String text = buf.toString();
-                if (text.length() > 31) {
-                    error(cur_line, cur_col, "identifier '"+text+"' too long, truncated to 31 characters");
-                    text = text.substring(0, 31);
+                int maxlength = kernighan?31:7;
+                if (text.length() > maxlength) {
+                    error(cur_line, cur_col, "identifier '"+text+"' too long, truncated to "+maxlength+" characters");
+                    text = text.substring(0, maxlength);
                 }
                 
                 Token token = new Token(TokenType.NAME, text, cur_line, cur_col);
