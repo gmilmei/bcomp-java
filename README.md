@@ -73,12 +73,12 @@ SIZE is an integer that gives the memory size (in MB).
 ## Language
 
 The language as implemented follows closely the *User's Reference to
-B* (Thomson, 1972).
+B* (Thompson, 1972).
 
 ## Limitations and deviations
 
 The following lists limitations and deviations of the implementation compared to
-Thomson, 1972.
+Thompson, 1972.
 
 * The wordsize of the VM is 32 bit instead of the 16 bit on the
   PDP-11. This also means there are 4 characters in each word. Within
