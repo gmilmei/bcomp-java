@@ -291,8 +291,8 @@ public class CodeGenerator {
                 int constant = st.exprs.get(0).number;
                 comment("compare with case "+constant);
                 instr("MOV", lit(st.exprs.get(0).number), acc);
-                instr("SUB", reg1, acc);
-                instr("BEQ", st.name);
+                instr("XOR", reg1, acc);
+                instr("BNE", st.name);
             }
             instr("JRL", bindings.breakLabel);
             if (isNotEmpty(statement.statements)) {
@@ -585,7 +585,7 @@ public class CodeGenerator {
         case NOT:
             // ! expr
             rvalue(expr.expr1, bindings);
-            instr("NOT", acc);
+            instr("NOT", acc, acc);
             branchTrueFalse(trueLabel, falseLabel); // acc <- !acc 
             break;
         case NUMBER:
