@@ -272,17 +272,7 @@ public class Parser {
             statement.exprs = new LinkedList<>();
             statement.statements = new LinkedList<>();
             next();
-            if (at(LPAREN)) {
-                next();
-                statement.exprs.add(expression());
-                if (at(RPAREN))
-                    next();
-                else
-                    error(curToken.line, curToken.col, "expected ), got "+curToken.text);
-            }
-            else {
-                error(curToken.line, curToken.col, "expected (, got "+curToken.text);
-            }
+            statement.exprs.add(expression());
             statements.add(statement);            
             return statement(statement.statements);
         }
@@ -574,32 +564,32 @@ public class Parser {
         if (at(STAR)) {
             // * expr
             next();
-            return new Expr(ExprType.DEREF, expressionPrimary(), l, c);
+            return new Expr(ExprType.DEREF, expressionUnary(), l, c);
         }
         else if (at(AND)) {
             // & expr
             next();
-            return new Expr(ExprType.REF, expressionPrimary(), l, c);
+            return new Expr(ExprType.REF, expressionUnary(), l, c);
         }
         else if (at(MINUS)) {
             // - expr
             next();
-            return new Expr(ExprType.NEG, expressionPrimary(), l, c);
+            return new Expr(ExprType.NEG, expressionUnary(), l, c);
         }
         else if (at(NOT)) {
             // ! expr
             next();
-            return new Expr(ExprType.NOT, expressionPrimary(), l, c);
+            return new Expr(ExprType.NOT, expressionUnary(), l, c);
         }
         else if (at(INC)) {
             // ++ expr
             next();
-            return new Expr(ExprType.PREINC, expressionPrimary(), l, c);
+            return new Expr(ExprType.PREINC, expressionUnary(), l, c);
         }
         else if (at(DEC)) {
             // -- expr
             next();
-            return new Expr(ExprType.PREDEC, expressionPrimary(), l, c);
+            return new Expr(ExprType.PREDEC, expressionUnary(), l, c);
         }
         else {
             Expr expr = expressionPrimary();
