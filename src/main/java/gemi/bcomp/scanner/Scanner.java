@@ -215,7 +215,7 @@ public class Scanner {
                     nextChar();
                 }
                 String text = buf.toString();
-                int maxlength = kernighan?31:7;
+                int maxlength = 31;
                 if (text.length() > maxlength) {
                     error(cur_line, cur_col, "identifier '"+text+"' too long, truncated to "+maxlength+" characters");
                     text = text.substring(0, maxlength);
