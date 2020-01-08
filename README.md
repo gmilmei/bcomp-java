@@ -125,3 +125,5 @@ Thompson, 1972.
   * wait
 
 * The maximum number of arguments in the external vector `argv` is 20.
+
+* Internal labels cannot be assigned to variables.
