@@ -21,6 +21,7 @@ public class Linker {
     public int offset = 0;
     public int[] code = new int[1024];
     public int dataoffset = 0;
+    public String vmexe = "/usr/bin/b-vm";
     
     public Linker(PrintStream out) {
         this.out = out;
@@ -56,7 +57,7 @@ public class Linker {
     }
     
     public void output() {
-        out.println("#!/usr/bin/b-vm");
+        out.println("#!"+vmexe);
         out.println(".memsize "+int2hex(memsize));
         out.println(".data "+int2hex(dataoffset));
         for (int i = 0; i < offset; i++) {
@@ -194,6 +195,9 @@ public class Linker {
         List<String> objnames = new LinkedList<>();
         String exefilename = "b.out";
         int memsize = 1024*1024;
+        String bcompLib = System.getProperty("bcomp.lib");
+        String vmexe = System.getProperty("bcomp.vmexe");
+        if (bcompLib != null) objnames.add(bcompLib);
         for (int i = 0; i < args.length; i++) {
             if (args[i].startsWith("-o")) {
                 String arg = args[i].substring("-o".length());
@@ -243,6 +247,7 @@ public class Linker {
         try (PrintStream out = new PrintStream(exefile)) {
             Linker linker = new Linker(out);
             linker.memsize = memsize;
+            if (vmexe != null) linker.vmexe = vmexe;
             for (String objname : objnames) {
                 try {
                     BObject obj = BObject.load(new FileInputStream(objname));

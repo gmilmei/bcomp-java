@@ -13,7 +13,7 @@ install:
 	sed "s|@BCOMPDIR@|${BCOMPDIR}|g" scripts/b-as.in > scripts/b-as
 	sed "s|@BCOMPDIR@|${BCOMPDIR}|g" scripts/b-comp.in > scripts/b-comp
 	sed "s|@BCOMPDIR@|${BCOMPDIR}|g" scripts/b-dis.in > scripts/b-dis
-	sed "s|@BCOMPDIR@|${BCOMPDIR}|g" scripts/b-link.in > scripts/b-link
+	sed "s|@BCOMPDIR@|${BCOMPDIR}|g;s|@VMEXE@|${BINDIR}/b-vm|g" scripts/b-link.in > scripts/b-link
 	sed "s|@BCOMPDIR@|${BCOMPDIR}|g" scripts/b-vm.in > scripts/b-vm
 	mkdir -p ${DESTDIR}${BINDIR}
 	mkdir -p ${DESTDIR}${BCOMPDIR}
