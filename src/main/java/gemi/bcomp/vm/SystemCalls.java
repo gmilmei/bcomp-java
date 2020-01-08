@@ -371,7 +371,27 @@ public class SystemCalls {
             ret(-1);
             return;
         }
-        // TODO
+        try {
+            int n = 0;
+            int i = 0;
+            while (n < count) {
+                int b = file.read();
+                if (b < 0) {
+                    ret(n);
+                    return;
+                }
+                mem(buf, (mem(buf)&~(0xFF<<i*8))|((b&0xFF)<<i*8));
+                n++;
+                i++;
+                if (i == 4) {
+                    i = 0;
+                    buf++;
+                }
+            }
+            ret(n);
+            return;
+        } catch (Exception e) {}
+        ret(-1);
     }
     
     private void seek() {
@@ -433,8 +453,8 @@ public class SystemCalls {
                 while (n < count && i < 4) {
                     file.writeByte(v&0xFF);
                     v = v >> 8;
-                i++;
-                n++;
+                    i++;
+                    n++;
                 }
                 buf++;
             }
