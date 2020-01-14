@@ -228,7 +228,7 @@ public class Assembler {
             instr = rrop(instr, arg1, arg2);
             break;
         case "MOD":
-            instr = addOpcode(instr, DIV);
+            instr = addOpcode(instr, MOD);
             instr = rrop(instr, arg1, arg2);
             break;
         case "NEG":
