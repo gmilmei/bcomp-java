@@ -27,7 +27,7 @@ install:
 
 tar: clean
 	mkdir -p ${NAME}
-	cp -a COPYING INSTALL.txt README.md ${NAME}
+	cp -a COPYING INSTALL.txt README.md examples ${NAME}
 	cp -a Makefile pom.xml ${NAME}
 	cp -a doc libb scripts src ${NAME}
 	tar zcf ${NAME}.tar.gz --owner=0 --group=0 ${NAME}
