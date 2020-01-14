@@ -72,7 +72,7 @@ public class Scanner {
                 case '-':
                     return makeTokenAndAdvance(ASMINUS, "=-", cur_line, cur_col);
                 case '/':
-                    return makeTokenAndAdvance(ASMUL, "=/", cur_line, cur_col);
+                    return makeTokenAndAdvance(ASDIV, "=/", cur_line, cur_col);
                 case '%':
                     return makeTokenAndAdvance(ASMOD, "=%", cur_line, cur_col);
                 case '^':
